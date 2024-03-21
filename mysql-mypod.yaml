@@ -6,7 +6,7 @@ metadata:
 spec:
   containers:
     - name: mysql
-      image: mysql
+      image: maxwellmendenhall/python-mysql-connect:tagname
       env:
         - name: MYSQL_ROOT_PASSWORD
           value: "YOUR_PASSWORD"
