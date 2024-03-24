@@ -13,15 +13,6 @@ spec:
       labels:
         app: mysql
     spec:
-      initContainers:
-      - name: init-mysql
-        image: busybox
-        command: ['sh', '-c', 'cp /tmp/config/cattle_data.csv /tmp/data/cattle_data.csv']
-        volumeMounts:
-        - name: config-volume
-          mountPath: /tmp/config
-        - name: data-volume
-          mountPath: /tmp/data
       containers:
       - name: mysql
         image: mysql:5.7
@@ -35,10 +26,21 @@ spec:
         volumeMounts:
         - name: data-volume
           mountPath: /var/lib/mysql-files
+        - name: init-db-script-volume
+          mountPath: /docker-entrypoint-initdb.d
       volumes:
       - name: config-volume
         configMap:
           name: cattle-data
+          items:
+          - key: cattle_data.csv
+            path: cattle_data.csv
       - name: data-volume
         emptyDir: {}
+      - name: init-db-script-volume
+        configMap:
+          name: init-db-script
+          items:
+          - key: init_db.sql
+            path: init_db.sql
 
