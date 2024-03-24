@@ -24,7 +24,7 @@ spec:
           image: mysql:5.7
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: "root"
+              value: "my-secret-pw"
           volumeMounts:
             - name: script-volume
               mountPath: /docker-entrypoint-initdb.d
