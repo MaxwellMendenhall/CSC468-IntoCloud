@@ -41,6 +41,6 @@ spec:
         configMap:
           name: init-db-script
           items:
-          - key: init_db.sql
-            path: init_db.sql
+          - key: init-db.sql
+            path: init-db.sql
 
