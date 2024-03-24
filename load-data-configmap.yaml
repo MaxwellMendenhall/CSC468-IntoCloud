@@ -15,7 +15,7 @@ data:
     echo "MySQL server is up. Inserting data."
     
     # Insert data into MySQL
-    mysql -h localhost -u root -p"my-secret-pw" mydatabase <<EOF
+    mysql -h localhost -u root -p"my-secret-pw" cattledb <<EOF
     LOAD DATA LOCAL INFILE '/var/lib/mysql-files/cattle_data.csv'
     INTO TABLE cattle
     FIELDS TERMINATED BY ','
