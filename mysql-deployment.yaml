@@ -26,7 +26,13 @@ spec:
         volumeMounts:
         - name: init-db-script
           mountPath: /docker-entrypoint-initdb.d
+        - name: cattle-data-volume  # Mount for the CSV file
+          mountPath: /var/lib/mysql-files
+          readOnly: true
       volumes:
       - name: init-db-script
         configMap:
           name: init-db-script
+      - name: cattle-data-volume  # Volume for the CSV file
+        configMap:
+          name: cattle-data  # Assuming the ConfigMap is named cattle-data
