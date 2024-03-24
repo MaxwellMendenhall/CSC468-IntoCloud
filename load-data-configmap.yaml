@@ -7,7 +7,7 @@ data:
   load-data.sh: |
     #!/bin/bash
     # Wait for MySQL to be up
-    until mysql -h localhost -u root -p"my-secret-pw" -e "SELECT 1" mydatabase > /dev/null 2>&1; do
+    until mysql -h localhost -u root -p"my-secret-pw" -e "SELECT 1" cattledb > /dev/null 2>&1; do
         echo "Waiting for MySQL server..."
         sleep 1
     done
