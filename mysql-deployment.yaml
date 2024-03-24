@@ -4,34 +4,46 @@ metadata:
   name: mysql-deployment
   namespace: sql-namespace
 spec:
-  ...
+  selector:
+    matchLabels:
+      app: mysql
+  replicas: 1
   template:
-    ...
+    metadata:
+      labels:
+        app: mysql
     spec:
-      initContainers:
-      - name: load-data
-        image: mysql:5.7 # Use the same image as your MySQL container
-        volumeMounts:
-        - name: data-volume
-          mountPath: /var/lib/mysql-files
+      volumes:
         - name: script-volume
-          mountPath: /scripts
-        command: ["sh", "/scripts/load-data.sh"]
+          configMap:
+            name: load-data-script
+        - name: data-volume
+          emptyDir: {}
+      initContainers:
+        - name: init-db
+          image: mysql:5.7
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "root"
+          volumeMounts:
+            - name: script-volume
+              mountPath: /docker-entrypoint-initdb.d
+            - name: data-volume
+              mountPath: /var/lib/mysql-files
+          command: ['sh', '-c', 'echo Initializing database... && sleep 60']
       containers:
       - name: mysql
         image: mysql:5.7
-        ...
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: "my-secret-pw"
+          - name: MYSQL_DATABASE
+            value: "mydatabase"
+        ports:
+          - containerPort: 3306
         volumeMounts:
-        - name: data-volume
-          mountPath: /var/lib/mysql-files
-      volumes:
-      - name: config-volume
-        configMap:
-          name: cattle-data
-      - name: data-volume
-        emptyDir: {}
-      - name: script-volume
-        configMap:
-          name: load-data-script
+          - name: data-volume
+            mountPath: /var/lib/mysql-files
+
 
 
