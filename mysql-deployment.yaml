@@ -29,7 +29,7 @@ spec:
           volumeMounts:
             - name: script-volume
               mountPath: /docker-entrypoint-initdb.d
-            - name: data-volume
+            - name: csv-data-volume
               mountPath: /var/lib/mysql-files
           command: ['sh', '-c', 'echo Initializing database... && sleep 60']
       containers:
@@ -43,7 +43,7 @@ spec:
         ports:
           - containerPort: 3306
         volumeMounts:
-          - name: data-volume
+          - name: csv-data-volume
             mountPath: /var/lib/mysql-files
 
 
