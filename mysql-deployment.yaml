@@ -17,7 +17,7 @@ spec:
         - name: script-volume
           configMap:
             name: load-data-script
-        - name: data-volume
+        - name: csv-data-volume
           configMap:
               name: cattle-data
       initContainers:
