@@ -1,4 +1,6 @@
 #!/bin/bash
+cp /var/lib/mysql-files/*.csv /tmp/
+chown mysql:mysql /tmp/*.csv
 
 # Wait for MySQL to be up
 until mysql -h localhost -u root -p"my-secret-pw" -e "SELECT 1" cattledb > /dev/null 2>&1; do
