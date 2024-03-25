@@ -31,7 +31,6 @@ spec:
               mountPath: /docker-entrypoint-initdb.d
             - name: csv-data-volume
               mountPath: /var/lib/mysql-files
-          command: ['sh', '-c', 'echo Initializing database... && sleep 60']
       containers:
       - name: mysql
         image: mysql:5.7
