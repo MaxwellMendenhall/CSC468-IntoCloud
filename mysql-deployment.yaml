@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql-deployment
+  name: custom-mysql-deployment
   namespace: sql-namespace
 spec:
   selector:
@@ -13,42 +13,12 @@ spec:
       labels:
         app: mysql
     spec:
-      volumes:
-        - name: script-volume
-          configMap:
-            name: load-data-script
-        - name: csv-data-volume
-          configMap:
-              name: cattle-data
-        - name: data-volume  # A writable volume for copying and modifying files
-          emptyDir: {}
-      initContainers:
-        - name: init-db
-          image: mysql:5.7
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: "my-secret-pw"
-          volumeMounts:
-            - name: script-volume
-              mountPath: /docker-entrypoint-initdb.d
-            - name: csv-data-volume
-              mountPath: /var/lib/mysql-files
-              readOnly: true
-            - name: data-volume
-              mountPath: /tmp
       containers:
       - name: mysql
-        image: mysql:5.7
-        env:
-          - name: MYSQL_ROOT_PASSWORD
-            value: "my-secret-pw"
-          - name: MYSQL_DATABASE
-            value: "mydatabase"
+        image: maxwellmendenhall/custom-mysql:v2.0
         ports:
-          - containerPort: 3306
-        volumeMounts:
-          - name: csv-data-volume
-            mountPath: /var/lib/mysql-files
-
-
-
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "my-secret-pw"
+          
